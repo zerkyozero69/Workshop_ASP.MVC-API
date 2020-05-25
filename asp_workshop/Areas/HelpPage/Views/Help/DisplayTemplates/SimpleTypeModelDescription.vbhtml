@@ -1,0 +1,3 @@
+@Imports asp_workshop.Areas.HelpPage.ModelDescriptions
+@ModelType SimpleTypeModelDescription
+@Model.Documentation
