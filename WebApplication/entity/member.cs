@@ -14,6 +14,12 @@ namespace WebApplication.entity
     
     public partial class member
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public member()
+        {
+            this.AccessTokens = new HashSet<AccessToken>();
+        }
+    
         public int Id { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
@@ -21,8 +27,11 @@ namespace WebApplication.entity
         public string password { get; set; }
         public string position { get; set; }
         public byte[] image { get; set; }
-        public short role { get; set; }
+        public Roleaccount role { get; set; }
         public System.DateTime created { get; set; }
         public System.DateTime updated { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccessToken> AccessTokens { get; set; }
     }
 }

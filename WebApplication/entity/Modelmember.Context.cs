@@ -26,5 +26,6 @@ namespace WebApplication.entity
         }
     
         public virtual DbSet<member> members { get; set; }
+        public virtual DbSet<AccessToken> AccessTokens { get; set; }
     }
 }

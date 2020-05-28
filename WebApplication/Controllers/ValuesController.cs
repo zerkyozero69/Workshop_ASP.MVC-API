@@ -19,20 +19,12 @@ namespace WebApplication.Controllers
             //return this._database.members.toList();
             return this._database.members.Select(m =>   m.firstname ).ToList();
         }
-       [Route("api/account/login")]
-       [HttpPost]
-        public IHttpActionResult postlogin()
-        {
-            //http://localhost:3000/api/account/login
-            return  BadRequest( "Login Post Page");
-        }
-        
+
         // GET api/values/5
         public string Get(int id)
         {
             return "_database";
-        }
-
+        } 
         // POST api/values
         public void Post([FromBody]string value)
         {

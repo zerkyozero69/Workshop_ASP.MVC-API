@@ -4,7 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="exprise" Type="datetime" Nullable="false" />
+          <Property Name="memberID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="member">
           <Key>
             <PropertyRef Name="Id" />
@@ -20,11 +29,27 @@
           <Property Name="created" Type="datetime" Nullable="false" />
           <Property Name="updated" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK_AccessToken_Members">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="AccessToken" Type="Self.AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="memberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="AccessToken" EntityType="Self.AccessToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="member" EntityType="Self.member" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccessToken_Members" Association="Self.FK_AccessToken_Members">
+            <End Role="member" EntitySet="member" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -39,13 +64,46 @@
           <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="role" Type="Int16" Nullable="false" />
+          <Property Name="role" Type="Database1Model.Roleaccount" Nullable="false" />
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AccessTokens" Relationship="Database1Model.FK_AccessToken_Members" FromRole="member" ToRole="AccessToken" />
         </EntityType>
         <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="members" EntityType="Self.member" />
+          <EntitySet Name="AccessTokens" EntityType="Database1Model.AccessToken" />
+          <AssociationSet Name="FK_AccessToken_Members" Association="Database1Model.FK_AccessToken_Members">
+            <End Role="member" EntitySet="members" />
+            <End Role="AccessToken" EntitySet="AccessTokens" />
+          </AssociationSet>
         </EntityContainer>
+        <EnumType Name="Roleaccount" UnderlyingType="Int16">
+          <Member Name="Member" Value="1" />
+          <Member Name="Employee" Value="2" />
+          <Member Name="Admin" Value="3" />
+        </EnumType>
+        <EntityType Name="AccessToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="exprise" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="memberID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="member" Relationship="Database1Model.FK_AccessToken_Members" FromRole="AccessToken" ToRole="member" />
+        </EntityType>
+        <Association Name="FK_AccessToken_Members">
+          <End Type="Database1Model.member" Role="member" Multiplicity="1" />
+          <End Type="Database1Model.AccessToken" Role="AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="memberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -65,6 +123,16 @@
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="created" ColumnName="created" />
                 <ScalarProperty Name="updated" ColumnName="updated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccessTokens">
+            <EntityTypeMapping TypeName="Database1Model.AccessToken">
+              <MappingFragment StoreEntitySet="AccessToken">
+                <ScalarProperty Name="memberID" ColumnName="memberID" />
+                <ScalarProperty Name="exprise" ColumnName="exprise" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

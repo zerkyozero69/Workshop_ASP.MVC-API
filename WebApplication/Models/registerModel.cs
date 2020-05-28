@@ -23,15 +23,7 @@ namespace WebApplication.Models
         [Compare("password",ErrorMessage ="รหัสผ่านต้องตรงกัน")]
         public string cpassword { get; set; }
 
-        /// <summary>
-        /// ปรับแต่ง error
-        /// </summary>
-        /// <param name="modelState"></param>
-        /// <returns></returns>
-        public static object GerErrorModelState(ModelStateDictionary modelState)
-        {
-            var modelValue = modelState.Values;
-        }
+
       
     }
 }
