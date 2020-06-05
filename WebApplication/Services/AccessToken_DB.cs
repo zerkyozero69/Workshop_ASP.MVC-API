@@ -18,13 +18,13 @@ namespace WebApplication.Services
                 if (memberItem == null) throw new Exception("Not Found member");
                 var AccessTokenCreate = new AccessToken
                 {
-                    Token = Guid.NewGuid().ToString(),
+                    token = Guid.NewGuid().ToString(),
                     exprise = DateTime.Now.AddMinutes(minute),
                     memberID =memberItem.Id
                 };
                 this.db.AccessTokens.Add(AccessTokenCreate);
                 this.db.SaveChanges();
-                return AccessTokenCreate.Token;
+                return AccessTokenCreate.token;
                     }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace WebApplication.Services
         {
             try
             {
-                var AccessTokenItem = this.db.AccessTokens.SingleOrDefault(item => item.Token.Equals(accessToken));
+                var AccessTokenItem = this.db.AccessTokens.SingleOrDefault(item => item.token.Equals(accessToken));
                 if (AccessTokenItem == null) return null;
                 if (AccessTokenItem.exprise == DateTime.UtcNow) return null;
                 return AccessTokenItem.member;

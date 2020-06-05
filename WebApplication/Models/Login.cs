@@ -17,6 +17,6 @@ namespace WebApplication.Models
     }
     public class AccessTokenModel
     {
-        public string AccessToken { get; set; }
+        public string accessToken { get; set; }
     }
 }

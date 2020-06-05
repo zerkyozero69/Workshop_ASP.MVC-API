@@ -87,7 +87,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Token" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="token" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="exprise" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="memberID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="member" Relationship="Database1Model.FK_AccessToken_Members" FromRole="AccessToken" ToRole="member" />
@@ -131,7 +131,7 @@
               <MappingFragment StoreEntitySet="AccessToken">
                 <ScalarProperty Name="memberID" ColumnName="memberID" />
                 <ScalarProperty Name="exprise" ColumnName="exprise" />
-                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="token" ColumnName="Token" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -12,6 +12,9 @@ namespace WebApplication
         {
             // Web API configuration and services
             config.EnableCors(new EnableCorsAttribute("*","*","*") );
+
+            //Add.handler
+            config.MessageHandlers.Add(new AuthenticationHandler () );
             // Web API routes
             config.MapHttpAttributeRoutes();
 

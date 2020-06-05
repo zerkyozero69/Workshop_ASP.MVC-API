@@ -15,7 +15,7 @@ namespace WebApplication.entity
     public partial class AccessToken
     {
         public int Id { get; set; }
-        public string Token { get; set; }
+        public string token { get; set; }
         public System.DateTime exprise { get; set; }
         public int memberID { get; set; }
     

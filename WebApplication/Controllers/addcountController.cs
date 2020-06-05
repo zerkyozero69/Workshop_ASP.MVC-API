@@ -65,9 +65,9 @@ namespace WebApplication.Controllers
                     if (this.account.Login(model))
                     {
                         return new AccessTokenModel
-
-
-                        { AccessToken =this.accesstoken.GenerateAccessToken(model.email)    };
+                        {
+                            accessToken = this.accesstoken.GenerateAccessToken(model.email)
+                        };
 
                         throw new Exception("Email or Password worng");
 

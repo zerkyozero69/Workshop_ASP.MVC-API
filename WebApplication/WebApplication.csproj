@@ -209,15 +209,18 @@
     </Compile>
     <Compile Include="interfaces\iAccessTokenService.cs" />
     <Compile Include="interfaces\iaccountService.cs" />
+    <Compile Include="interfaces\iMemberService.cs" />
     <Compile Include="Models\extensionModel.cs" />
     <Compile Include="Models\JWTPayload.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\memberData.cs" />
     <Compile Include="Models\password hash.cs" />
     <Compile Include="Models\registerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccessToken_DB.cs" />
     <Compile Include="Services\AccessToken_JWT.cs" />
     <Compile Include="Services\accountServices.cs" />
+    <Compile Include="Services\MemberService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
