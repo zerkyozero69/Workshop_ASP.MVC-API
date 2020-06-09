@@ -30,6 +30,7 @@ namespace WebApplication.entity
         public Roleaccount role { get; set; }
         public System.DateTime created { get; set; }
         public System.DateTime updated { get; set; }
+        public string imageType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccessToken> AccessTokens { get; set; }

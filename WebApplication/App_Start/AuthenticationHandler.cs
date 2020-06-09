@@ -15,10 +15,7 @@ namespace WebApplication
     public class AuthenticationHandler : DelegatingHandler
     {
         private iAccessTokenService accessTokenService;
-        public AuthenticationHandler()
-        {
-            this.accessTokenService = new AccessToken_JWT();
-        }
+
         //    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         //    {
         //        var Authorization = request.Headers.Authorization;
@@ -51,9 +48,11 @@ namespace WebApplication
                 string AccessTokenType = Authorization.Scheme;
                 if (AccessTokenType.Equals("Bearer"))
                 {
+                    this.accessTokenService = new AccessToken_JWT();
                     var memberItem = this.accessTokenService.VerifyAccessToken(AccessToken);
                     if (memberItem != null)
                     {
+                     
                         var userLogin = new UserLogin(new GenericIdentity(memberItem.email), memberItem.role);
                         userLogin.Member = memberItem;
                         Thread.CurrentPrincipal = userLogin;

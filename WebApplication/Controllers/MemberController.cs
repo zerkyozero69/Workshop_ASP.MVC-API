@@ -23,21 +23,26 @@ namespace WebApplication.Controllers
  
         [Route("api/member/data")]
         //แสดงชื่อผู้ใช้ที่ login เข้ามา
-        public member GetMemberdata()
+        public memberData GetMemberdata()
         {
-            var userLogin = User as UserLogin;
-            return new member
+            var userLogin = this.memberService.MembersItem
+                .SingleOrDefault(item => item.email.Equals(User.Identity.Name));
+            if (userLogin == null) return null;
+
+            return new memberData
             {
-                Id = userLogin.Member.Id,
-                created = userLogin.Member.created,
-                email = userLogin.Member.email,
-                firstname = userLogin.Member.firstname,
-                lastname =  userLogin.Member.lastname,
-                 image = userLogin.Member.image,
-                position = userLogin.Member.position,
-                role = userLogin.Member.role,
-                updated = userLogin.Member.updated
+                Id = userLogin.Id,
+                created = userLogin.created,
+                email = userLogin.email,
+                firstname = userLogin.firstname,
+                lastname = userLogin.lastname,
+                imagebyte = userLogin.image,
+                image_type=userLogin.imageType,
+                position = userLogin.position,
+                role = userLogin.role,
+                updated = userLogin.updated
             };
+
 
             //return Json(new {
             //     islogin = User.Identity.IsAuthenticated,
@@ -50,7 +55,15 @@ namespace WebApplication.Controllers
         {
             if(ModelState.IsValid)
             {
-                return Json(model);
+                try
+                {
+                    this.memberService.UpdateProfile(User.Identity.Name, model);
+                    return Ok(this.GetMemberdata());
+                }
+                catch(Exception ex )
+                {
+                    ModelState.AddModelError("Exception", ex.Message);
+                }
             }
             return BadRequest(ModelState.GerErrorModelState());
 
