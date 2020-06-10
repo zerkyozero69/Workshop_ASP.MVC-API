@@ -210,7 +210,9 @@
     <Compile Include="interfaces\iAccessTokenService.cs" />
     <Compile Include="interfaces\iaccountService.cs" />
     <Compile Include="interfaces\iMemberService.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\extensionModel.cs" />
+    <Compile Include="Models\GetmemberModel.cs" />
     <Compile Include="Models\JWTPayload.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\memberData.cs" />
@@ -293,6 +295,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\demorazor.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

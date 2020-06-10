@@ -19,18 +19,18 @@ namespace WebApplication.Models
         [JsonIgnore]
         public byte[] imagebyte { get; set; }
         public string position { get; set; }
-        public   string  image
+        public string image
         {
             get
-          {
-                if(imagebyte != null && !string.IsNullOrEmpty(image_type))
+            {
+                if (imagebyte != null && !string.IsNullOrEmpty(image_type))
                 {
                     return $"{image_type},{Convert.ToBase64String(imagebyte)}";
                 }
                 return null;
             }
         }
-      
+
         public Roleaccount role { get; set; }
         public System.DateTime created { get; set; }
         public System.DateTime updated { get; set; }
@@ -45,4 +45,5 @@ namespace WebApplication.Models
         public string position { get; set; }
         public string image { get; set; }
     }
+    
 }

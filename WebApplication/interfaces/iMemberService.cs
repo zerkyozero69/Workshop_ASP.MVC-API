@@ -11,6 +11,8 @@ namespace WebApplication.interfaces
    interface iMemberService
     {
         IEnumerable<member> MembersItem { get; }
-        void UpdateProfile(string email,profileModel model);
+        GetmemberModel getmamber();
+        void UpdateProfile(string email, profileModel model);
+        void ChangePassword(string email,ChangePasswordModel model);
     }
 }

@@ -20,7 +20,7 @@ namespace WebApplication.Controllers
         {
             this.memberService = new MemberService();
         }
- 
+
         [Route("api/member/data")]
         //แสดงชื่อผู้ใช้ที่ login เข้ามา
         public memberData GetMemberdata()
@@ -37,7 +37,7 @@ namespace WebApplication.Controllers
                 firstname = userLogin.firstname,
                 lastname = userLogin.lastname,
                 imagebyte = userLogin.image,
-                image_type=userLogin.imageType,
+                image_type = userLogin.imageType,
                 position = userLogin.position,
                 role = userLogin.role,
                 updated = userLogin.updated
@@ -49,18 +49,18 @@ namespace WebApplication.Controllers
             //     emaillogin = User.Identity.AuthenticationType
             //});
         }
-        [Route ("api/member/profile")]
+        [Route("api/member/profile")]
         //บันทึกข้อมูล profile
         public IHttpActionResult PostUpdateProfile([FromBody] profileModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
                     this.memberService.UpdateProfile(User.Identity.Name, model);
                     return Ok(this.GetMemberdata());
                 }
-                catch(Exception ex )
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("Exception", ex.Message);
                 }
@@ -68,6 +68,34 @@ namespace WebApplication.Controllers
             return BadRequest(ModelState.GerErrorModelState());
 
         }
+        //เปลี่ยนรหัสผ่าน
+        /// <summary>
+        /// เปบี่นพาสเวริค์
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/member/change-password")]
+        public IHttpActionResult PostChangePassword([FromBody] ChangePasswordModel model)
+            {
+            if (ModelState.IsValid)
 
+            {
+                try
+                {
+                    this.memberService.ChangePassword(User.Identity.Name, model);
+                    return Ok(new { Message= "Password have change" });
+                }
+                catch(Exception ex)
+                {
+                    ModelState.AddModelError("Exception",ex.Message);
+                }
+            } 
+            return BadRequest(ModelState.GerErrorModelState());
+
+            }
+        //แสดงรายการ สมาชิกทั้งหมด
+        public GetmemberModel GetMember()
+        {
+            return this.memberService.getmamber() ;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,8 +13,60 @@ namespace WebApplication.Services
     {
         private Database1Entities db = new Database1Entities();
 
+        //ข้อมูลสมาชิก
         public IEnumerable<member> MembersItem => this.db.members.ToList();
+        //เปลี่ยนรหัสผ่าน
+        public void ChangePassword(string email, ChangePasswordModel  model )
+        {
+            try
+            {
+                var memberitem = this.db.members.SingleOrDefault(item => item.email.Equals(email));
+                    if (memberitem == null)  throw new Exception("not found member");
+                if (!password_hash.Verify(model.old_pass, memberitem.password) )
+                    throw new Exception(" The Oid Password is  invalid");
+                this.db.members.Attach(memberitem);
+                memberitem.password = password_hash.hash(model.new_pass);
+                memberitem.updated = DateTime.Now;
+                this.db.Entry(memberitem).State = System.Data.Entity.EntityState.Modified;
+                this.db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex.GetError();
+            }
+        }
+        //แสดงรายการสมาชิก
+        public GetmemberModel getmamber()
+            {
+                try
+                {
+                    var item = this.MembersItem.Select(m => new getmamber
+                    {
+                        Id = m.Id,
+                        email = m.email,
+                        firstname = m.firstname,
+                        lastname = m.lastname,
+                        position = m.position,
+                        role = m.role,
+                        updated = m.updated
+                    }
+                       ).ToArray();
+                    var totalItem = item.Length;
+                    return new GetmemberModel
+                    {
+                        items = item,
+                        TotalItems = totalItem
+                    };
+                }
+                catch (Exception ex)
+                {
+                    throw ex.GetError();
+                }
 
+            }
+
+
+        //อัพเดทโปรไฟล์ส่วนตัว
         public void UpdateProfile(string email, profileModel model)
         {
             try
