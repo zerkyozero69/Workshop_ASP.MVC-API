@@ -36,7 +36,7 @@ namespace WebApplication.Services
             }
         }
         //แสดงรายการสมาชิก
-        public GetmemberModel getmamber()
+        public GetmemberModel getmamber(MemberFilterOption filterOption)
             {
                 try
                 {
@@ -52,11 +52,14 @@ namespace WebApplication.Services
                     }
                        ).ToArray();
                     var totalItem = item.Length;
-                    return new GetmemberModel
+                var  memberitems     = new GetmemberModel
                     {
-                        items = item,
-                        TotalItems = totalItem
+                        items = item.Skip((filterOption.startPage - 1) *filterOption.limitPage)
+                        .Take(filterOption.limitPage)
+                        .ToArray(),
+                        TotalItems =item.Count()
                     };
+                return memberitems;
                 }
                 catch (Exception ex)
                 {

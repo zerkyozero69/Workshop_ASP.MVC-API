@@ -45,5 +45,13 @@ namespace WebApplication.Models
         public string position { get; set; }
         public string image { get; set; }
     }
+    //จำกัดหน้าในเพจ
+    public class MemberFilterOption
+        {
+        [Required]
+        public int startPage { get; set; }  
+        [Required]
+        public int limitPage { get; set; }
+    }
     
 }

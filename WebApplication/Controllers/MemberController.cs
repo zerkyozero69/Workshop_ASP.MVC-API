@@ -75,27 +75,76 @@ namespace WebApplication.Controllers
         /// <returns></returns>
         [Route("api/member/change-password")]
         public IHttpActionResult PostChangePassword([FromBody] ChangePasswordModel model)
-            {
+        {
             if (ModelState.IsValid)
 
             {
                 try
                 {
                     this.memberService.ChangePassword(User.Identity.Name, model);
-                    return Ok(new { Message= "Password have change" });
+                    return Ok(new { Message = "Password have change" });
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("Exception",ex.Message);
+                    ModelState.AddModelError("Exception", ex.Message);
                 }
-            } 
+            }
             return BadRequest(ModelState.GerErrorModelState());
 
-            }
-        //แสดงรายการ สมาชิกทั้งหมด
-        public GetmemberModel GetMember()
-        {
-            return this.memberService.getmamber() ;
         }
+        //แสดงรายการ สมาชิกทั้งหมด
+        //แสดงบางหน้า
+        public GetmemberModel GetMember([FromUri]MemberFilterOption filterOption)
+        {
+            if (ModelState.IsValid)
+            {
+                 
+                return this.memberService.getmamber(filterOption);
+            }
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GerErrorModelState() } 
+                ));
+         //   return options;
+        }
+        //เพิ่มข้อมูลสมาชิก
+        [Route("api/member/generate")]
+        public IHttpActionResult postGenerateMember()
+        {
+            try
+            {
+                var memberitem = new List<member>();
+                var password = password_hash.hash("123456");
+                var posittion = new string[] { "Frontend Developer", "Backend Developer" };
+                var role = new Roleaccount[] { Roleaccount.Member, Roleaccount.Employee, Roleaccount.Admin };
+                var random = new Random();
+                for (var index = 1; index <= 97; index++)
+                {
+                    memberitem.Add(new member
+                    {
+                        email = $"mail-{index}@mail.com",
+                        password = password,
+                        firstname = $"firstname {index}",
+                        lastname = $"lastname {index}",
+                        position = posittion[random.Next(0, 2)],
+                        role = role[random.Next(0, 2)],
+                        created = DateTime.UtcNow,
+                        updated = DateTime.UtcNow
+
+                    });
+                }
+               var db=     new Database1Entities();
+                    db.members.AddRange(memberitem);
+                    db.SaveChanges();
+                return Json(memberitem);
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Exception", ex);
+                return BadRequest(ModelState.GerErrorModelState());
+            }
+        }
+
     }
 }

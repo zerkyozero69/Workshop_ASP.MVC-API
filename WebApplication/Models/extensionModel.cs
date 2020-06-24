@@ -16,7 +16,10 @@ namespace WebApplication.Models
         /// <returns></returns>
         public static string GerErrorModelState(this ModelStateDictionary modelState)
         {
-            var modelValue = modelState.Values.Select(value => value.Errors).FirstOrDefault();
+            var modelValue = modelState.Values
+                .Select(value => value.Errors)
+                .Where(value => value.Count() >0)
+                .FirstOrDefault();
             if (modelValue == null)
             {
                 return null;
